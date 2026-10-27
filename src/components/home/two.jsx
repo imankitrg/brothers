@@ -1,86 +1,101 @@
+
 "use client";
+
 import Link from "next/link";
+import clothes from "@/data/clothes";
+
 
 export default function Two() {
-    const offers = [
-        {
-            id: 1,
-            badge: "FLAT 30% OFF",
-            title: "Oversized Streetwear Tees",
-            subtitle: "Heavyweight 240 GSM organic cotton drops.",
-            image: "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=600&q=80",
-            link: "/temp_1"
-        },
-        {
-            id: 2,
-            badge: "BUY 2 GET 15% OFF",
-            title: "Vintage Denim & Jeans",
-            subtitle: "Relaxed 90s baggy & slim stretch fits.",
-            image: "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?auto=format&fit=crop&w=600&q=80",
-            link: "/temp_1"
-        },
-        {
-            id: 3,
-            badge: "NEW ARRIVALS",
-            title: "Festive & Ethnic Kurtis",
-            subtitle: "Pure silk & cotton hand-embroidered collection.",
-            image: "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=600&q=80",
-            link: "/temp_1"
-        }
-    ];
+    const products = clothes.slice(0, 8);
 
     return (
-        <section className="bg-white py-16 px-6 border-b border-zinc-200">
-            <div className="max-w-7xl mx-auto space-y-10">
-                <div className="text-center max-w-2xl mx-auto space-y-2">
-                    <span className="text-xs font-semibold uppercase tracking-widest text-zinc-500">
-                        Exclusive Deals
-                    </span>
-                    <h2 className="text-3xl font-extrabold text-zinc-900 tracking-tight">
-                        Trending Offers & Collections
-                    </h2>
-                    <p className="text-sm text-zinc-600">
-                        Handpicked seasonal deals crafted for maximum comfort and style.
-                    </p>
+        <section className="border-b border-zinc-200 bg-white px-4 py-12 sm:px-6 md:py-16">
+            <div className="mx-auto max-w-7xl">
+
+                {/* Heading */}
+                <div className="mb-8 flex items-end justify-between sm:mb-10">
+                    <div>
+                        <p className="mb-2 text-xs font-semibold uppercase tracking-[0.2em] text-zinc-500">
+                            Freshly Arrived
+                        </p>
+
+                        <h2 className="text-2xl font-bold tracking-tight text-zinc-900 sm:text-3xl md:text-4xl">
+                            Latest Collection
+                        </h2>
+
+                        <p className="mt-2 text-sm text-zinc-500">
+                            Discover your next favourite style.
+                        </p>
+                    </div>
+
+                    <Link
+                        href="/temp_1"
+                        className="shrink-0 border-b border-zinc-900 pb-1 text-sm font-semibold text-zinc-900 hover:text-zinc-500"
+                    >
+                        View All →
+                    </Link>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    {offers.map((offer) => (
-                        <div
-                            key={offer.id}
-                            className="group relative rounded-2xl overflow-hidden bg-zinc-50 border border-zinc-200 hover:shadow-xl transition-all duration-300 flex flex-col justify-between"
+                {/* Product Grid */}
+                <div className="grid grid-cols-2 gap-x-3 gap-y-7 sm:gap-x-5 sm:gap-y-9 md:grid-cols-3 lg:grid-cols-4">
+                    {products.map((product) => (
+                        <Link
+                            key={product.id}
+                            href={`/temp_1/${product.id}`}
+                            className="group min-w-0"
                         >
-                            <div className="relative h-64 overflow-hidden">
+                            {/* Image */}
+                            <div className="relative aspect-[3/4] overflow-hidden rounded-lg bg-zinc-100">
                                 <img
-                                    src={offer.image}
-                                    alt={offer.title}
-                                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                                    src={product.image}
+                                    alt={product.name}
+                                    loading="lazy"
+                                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                                 />
-                                <span className="absolute top-4 left-4 bg-zinc-900 text-white text-xs font-bold px-3 py-1 rounded-full shadow-md">
-                                    {offer.badge}
+
+                                <span className="absolute left-2 top-2 rounded-sm bg-white px-2 py-1 text-[9px] font-bold uppercase tracking-wide text-zinc-900 sm:left-3 sm:top-3 sm:text-[10px]">
+                                    New Arrival
                                 </span>
+
+                                {product.totalStock === 0 && (
+                                    <span className="absolute inset-x-0 bottom-0 bg-zinc-900/80 py-2 text-center text-xs font-semibold text-white">
+                                        Out of Stock
+                                    </span>
+                                )}
                             </div>
 
-                            <div className="p-6 space-y-3 flex-1 flex flex-col justify-between">
-                                <div>
-                                    <h3 className="font-bold text-lg text-zinc-900 group-hover:text-zinc-700 transition-colors">
-                                        {offer.title}
-                                    </h3>
-                                    <p className="text-xs text-zinc-600 mt-1">
-                                        {offer.subtitle}
+                            {/* Product Info */}
+                            <div className="pt-3">
+                                <p className="mb-1 text-[10px] uppercase tracking-widest text-zinc-500">
+                                    {product.category}
+                                </p>
+
+                                <h3 className="truncate text-sm font-medium text-zinc-900 sm:text-base">
+                                    {product.name}
+                                </h3>
+
+                                <div className="mt-1 flex flex-wrap items-center justify-between gap-2">
+                                    <p className="text-sm font-semibold text-zinc-900">
+                                        ₹{product.price.toLocaleString("en-IN")}
                                     </p>
-                                </div>
 
-                                <Link
-                                    href={offer.link}
-                                    className="inline-flex items-center text-xs font-bold text-zinc-900 hover:underline gap-1 pt-2"
-                                >
-                                    Explore Offer &rarr;
-                                </Link>
+                                    {product.totalStock > 0 && (
+                                        <span className="text-[10px] text-zinc-500">
+                                            In Stock
+                                        </span>
+                                    )}
+                                </div>
                             </div>
-                        </div>
+                        </Link>
                     ))}
                 </div>
+
+                {/* Empty State */}
+                {products.length === 0 && (
+                    <p className="py-12 text-center text-sm text-zinc-500">
+                        No products available right now.
+                    </p>
+                )}
             </div>
         </section>
     );

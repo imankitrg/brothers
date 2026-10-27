@@ -1,68 +1,82 @@
+
 "use client";
-import Link from "next/link";
+
+import { useEffect, useState } from "react";
+
+const images = [
+    "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1920&q=85",
+    "https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=1920&q=85",
+    "https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=1920&q=85",
+];
 
 export default function One() {
+    const [current, setCurrent] = useState(0);
+
+    const nextSlide = () => {
+        setCurrent((prev) => (prev + 1) % images.length);
+    };
+
+    const prevSlide = () => {
+        setCurrent((prev) => (prev - 1 + images.length) % images.length);
+    };
+
+    useEffect(() => {
+        const timer = setInterval(nextSlide, 2000);
+
+        return () => clearInterval(timer);
+    }, []);
+
     return (
-        <section className="bg-zinc-50 border-b border-zinc-200 py-16 px-6 md:py-24">
-            <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-                {/* Hero Text */}
-                <div className="space-y-6 text-center lg:text-left">
-                    <span className="inline-block px-3 py-1 bg-zinc-900 text-white text-xs font-semibold uppercase tracking-widest rounded-full">
-                        Summer 2026 Collection
-                    </span>
-                    <h1 className="text-4xl md:text-6xl font-extrabold text-zinc-900 tracking-tight leading-tight">
-                        ELEVATE YOUR EVERYDAY STYLE.
-                    </h1>
-                    <p className="text-base md:text-lg text-zinc-600 max-w-xl mx-auto lg:mx-0">
-                        Minimalist design meets premium craftsmanship. Explore lightweight shirts, oversized graphic tees, and vintage denim built for modern living.
-                    </p>
-                    <div className="flex flex-wrap justify-center lg:justify-start gap-4 pt-2">
-                        <Link
-                            href="/temp_1"
-                            className="px-6 py-3.5 bg-zinc-900 hover:bg-zinc-800 text-white font-medium text-sm rounded-xl transition-all shadow-md hover:shadow-lg"
-                        >
-                            Shop New Arrivals
-                        </Link>
-                        <Link
-                            href="#categories"
-                            className="px-6 py-3.5 bg-white hover:bg-zinc-100 text-zinc-900 border border-zinc-300 font-medium text-sm rounded-xl transition-all"
-                        >
-                            Explore Categories
-                        </Link>
-                    </div>
+        <section className="relative w-full overflow-hidden bg-zinc-100">
+            {/* Banner */}
+            <div className="relative h-[220px] w-full sm:h-[320px] md:h-[420px] lg:h-[520px]">
+                {images.map((image, index) => (
+                    <img
+                        key={image}
+                        src={image}
+                        alt={`Fashion banner ${index + 1}`}
+                        className={`absolute inset-0 h-full w-full object-cover object-center transition-opacity duration-700 ${current === index
+                                ? "z-10 opacity-100"
+                                : "z-0 opacity-0"
+                            }`}
+                        fetchPriority={index === 0 ? "high" : "auto"}
+                    />
+                ))}
 
-                    {/* Features row */}
-                    <div className="grid grid-cols-3 gap-4 pt-8 border-t border-zinc-200 text-center lg:text-left">
-                        <div>
-                            <p className="font-bold text-zinc-900 text-sm">Free Shipping</p>
-                            <p className="text-xs text-zinc-500">On orders over ₹999</p>
-                        </div>
-                        <div>
-                            <p className="font-bold text-zinc-900 text-sm">100% Cotton</p>
-                            <p className="text-xs text-zinc-500">Soft & Breathable</p>
-                        </div>
-                        <div>
-                            <p className="font-bold text-zinc-900 text-sm">Easy Returns</p>
-                            <p className="text-xs text-zinc-500">30-Day Money Back</p>
-                        </div>
-                    </div>
-                </div>
+                {/* Previous Arrow */}
+                <button
+                    type="button"
+                    onClick={prevSlide}
+                    aria-label="Previous banner"
+                    className="absolute left-3 top-1/2 z-20 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-white/80 text-xl text-black shadow-md transition hover:bg-white sm:left-6 sm:h-12 sm:w-12"
+                >
+                    &#10094;
+                </button>
 
-                {/* Hero Image Showcase */}
-                <div className="relative">
-                    <div className="relative mx-auto max-w-md lg:max-w-none rounded-2xl overflow-hidden shadow-2xl group">
-                        <img
-                            src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1000&q=80"
-                            alt="Brothers Store Collection"
-                            className="w-full h-[460px] md:h-[540px] object-cover object-center group-hover:scale-105 transition-transform duration-700"
+                {/* Next Arrow */}
+                <button
+                    type="button"
+                    onClick={nextSlide}
+                    aria-label="Next banner"
+                    className="absolute right-3 top-1/2 z-20 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-white/80 text-xl text-black shadow-md transition hover:bg-white sm:right-6 sm:h-12 sm:w-12"
+                >
+                    &#10095;
+                </button>
+
+                {/* Dots */}
+                <div className="absolute bottom-3 left-1/2 z-20 flex -translate-x-1/2 gap-2 sm:bottom-5">
+                    {images.map((image, index) => (
+                        <button
+                            key={image}
+                            type="button"
+                            onClick={() => setCurrent(index)}
+                            aria-label={`Show banner ${index + 1}`}
+                            className={`h-2 rounded-full transition-all duration-300 ${current === index
+                                    ? "w-6 bg-white"
+                                    : "w-2 bg-white/60"
+                                }`}
                         />
-                        <div className="absolute inset-0 bg-gradient-to-t from-zinc-900/60 via-transparent to-transparent flex items-end p-8">
-                            <div className="text-white">
-                                <p className="text-xs font-semibold uppercase tracking-wider opacity-80">Featured Edit</p>
-                                <h3 className="text-2xl font-bold">The Essential Streetwear Edit</h3>
-                            </div>
-                        </div>
-                    </div>
+                    ))}
                 </div>
             </div>
         </section>
