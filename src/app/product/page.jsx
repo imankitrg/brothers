@@ -1,7 +1,6 @@
-
 "use client";
 
-import { useMemo, useState } from "react";
+import { Suspense, useMemo, useState } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { products } from "@/data/product";
@@ -14,11 +13,10 @@ const categories = [
     { label: "Ethnic", value: "ethnic" },
 ];
 
-export default function ProductPage() {
+function ProductContent() {
     const searchParams = useSearchParams();
 
     const initialCategory = searchParams.get("category") || "all";
-
     const [category, setCategory] = useState(initialCategory);
     const [sort, setSort] = useState("featured");
 
@@ -51,6 +49,7 @@ export default function ProductPage() {
 
     const handleCategoryChange = (value) => {
         setCategory(value);
+
         const url = new URL(window.location.href);
 
         if (value === "all") {
@@ -61,8 +60,6 @@ export default function ProductPage() {
 
         window.history.replaceState(null, "", url);
     };
-
-    //add to cart function
 
     const addToCart = (product) => {
         const totalStock = product.variants.reduce(
@@ -75,14 +72,16 @@ export default function ProductPage() {
             return;
         }
 
-        const cart = JSON.parse(
-            localStorage.getItem("cart") || "[]"
-        );
+        let cart = [];
 
-        const existingProduct = cart.find(
-            (item) => item.id === product.id
-        );
+        try {
+            cart = JSON.parse(localStorage.getItem("cart") || "[]");
+            if (!Array.isArray(cart)) cart = [];
+        } catch {
+            cart = [];
+        }
 
+        const existingProduct = cart.find((item) => item.id === product.id);
         let updatedCart;
 
         if (existingProduct) {
@@ -111,9 +110,7 @@ export default function ProductPage() {
         }
 
         localStorage.setItem("cart", JSON.stringify(updatedCart));
-
         window.dispatchEvent(new Event("cartUpdated"));
-
         alert("Product added to cart!");
     };
 
@@ -141,10 +138,11 @@ export default function ProductPage() {
                         {categories.map((item) => (
                             <button
                                 key={item.value}
+                                type="button"
                                 onClick={() => handleCategoryChange(item.value)}
                                 className={`rounded-full border px-4 py-2 text-sm transition ${category === item.value
-                                    ? "border-black bg-black text-white"
-                                    : "border-zinc-200 bg-white text-zinc-700 hover:border-black"
+                                        ? "border-black bg-black text-white"
+                                        : "border-zinc-200 bg-white text-zinc-700 hover:border-black"
                                     }`}
                             >
                                 {item.label}
@@ -170,6 +168,12 @@ export default function ProductPage() {
                     <p className="text-sm text-zinc-500">
                         {filteredProducts.length} products
                     </p>
+                    <Link
+                        href="/cart"
+                        className="text-sm font-medium text-zinc-700 underline underline-offset-4 hover:text-black"
+                    >
+                        View Cart
+                    </Link>
                 </div>
 
                 {/* Product Grid */}
@@ -181,7 +185,6 @@ export default function ProductPage() {
                                 (total, variant) => total + variant.stock,
                                 0
                             );
-
 
                             return (
                                 <div key={product.id} className="group">
@@ -258,5 +261,19 @@ export default function ProductPage() {
                 )}
             </div>
         </main>
+    );
+}
+
+export default function ProductPage() {
+    return (
+        <Suspense
+            fallback={
+                <main className="min-h-screen bg-white px-4 py-10">
+                    <div className="mx-auto max-w-7xl">Loading products...</div>
+                </main>
+            }
+        >
+            <ProductContent />
+        </Suspense>
     );
 }
