@@ -1,39 +1,51 @@
 "use client";
-import youtube from "@/assets/youtube";
 
-// Converts any YouTube link (youtu.be, watch?v=, or /embed/) into a valid iframe embed URL
-function getEmbedUrl(url) {
-    if (!url) return "";
-    const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
-    const match = url.match(regExp);
-    const videoId = match && match[2].length === 11 ? match[2] : null;
-    return videoId ? `https://www.youtube.com/embed/${videoId}` : url;
-}
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
-export default function Home() {
+export default function Profile() {
+    const router = useRouter();
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+    useEffect(() => {
+        const loggedIn = sessionStorage.getItem("demoLoggedIn");
+
+        if (loggedIn !== "true") {
+            router.replace("/auth");
+        } else {
+            setIsLoggedIn(true);
+        }
+    }, [router]);
+
+    const handleLogout = () => {
+        sessionStorage.removeItem("demoLoggedIn");
+        router.replace("/auth");
+    };
+
+    if (!isLoggedIn) return null;
+
     return (
-        <div>
-            <h1>Home</h1>
-            <div className="flex flex-wrap gap-5">
-                {youtube.map((item) => (
-                    <div key={item.name}>
-                        <p>{item.name}</p>
-                        <a href={item.url} target="_blank" rel="noopener noreferrer">
-                            watch
-                        </a>
-                        {/* embed youtube video */}
-                        <iframe
-                            src={getEmbedUrl(item.url)}
-                            title={item.name || "YouTube video player"}
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                            referrerPolicy="strict-origin-when-cross-origin"
-                            allowFullScreen
-                            width="560"
-                            height="315"
-                        ></iframe>
-                    </div>
-                ))}
+        <main className="flex min-h-screen items-center justify-center bg-zinc-50 px-4">
+            <div className="w-full max-w-md rounded-2xl border border-zinc-200 bg-white p-8 text-center shadow-sm">
+                <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-zinc-900 text-3xl font-bold text-white">
+                    A
+                </div>
+
+                <h1 className="mt-5 text-2xl font-bold text-zinc-900">
+                    Welcome, Ankit!
+                </h1>
+
+                <p className="mt-2 text-zinc-500">
+                    You are logged in to your demo profile.
+                </p>
+
+                <button
+                    onClick={handleLogout}
+                    className="mt-6 w-full rounded-lg bg-black py-3 font-semibold text-white hover:bg-zinc-800"
+                >
+                    Logout
+                </button>
             </div>
-        </div>
+        </main>
     );
 }

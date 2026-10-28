@@ -132,18 +132,18 @@ export default function Navbar() {
         {
             title: "Account",
             items: [
-                { name: "Login", href: "/temp_4", icon: UserIcon, description: "Access your account" },
-                { name: "Register", href: "/temp_5", icon: UserIcon, description: "Create a new store account" },
+                { name: "Login", href: "/auth", icon: UserIcon, description: "Access your account" },
+                { name: "Register", href: "/auth", icon: UserIcon, description: "Create a new store account" },
             ],
         },
     ];
 
     const bottomDockItems = [
         { name: "Home", href: "/", icon: HomeIcon },
-        { name: "Products", href: "/temp_1", icon: ProductsIcon },
+        { name: "Products", href: "/product", icon: ProductsIcon },
         { name: "Orders", href: "/temp_6", icon: OrdersIcon },
         { name: "Cart", href: "/temp_2", icon: CartIcon },
-        { name: "Account", href: "/temp_4", icon: UserIcon },
+        { name: "Account", href: "/auth", icon: UserIcon },
     ];
 
     const isActive = (href) => {
@@ -177,11 +177,10 @@ export default function Navbar() {
                                     <Link
                                         key={link.name}
                                         href={link.href}
-                                        className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-all ${
-                                            active
-                                                ? "bg-zinc-900 text-white font-semibold shadow-xs"
-                                                : "text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100"
-                                        }`}
+                                        className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-all ${active
+                                            ? "bg-zinc-900 text-white font-semibold shadow-xs"
+                                            : "text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100"
+                                            }`}
                                     >
                                         {Icon && <Icon className="w-4 h-4" />}
                                         <span>{link.name}</span>
@@ -193,11 +192,10 @@ export default function Navbar() {
 
                             <Link
                                 href="/temp_4"
-                                className={`px-3 py-1.5 rounded-lg transition-colors ${
-                                    isActive("/temp_4")
-                                        ? "text-zinc-900 font-semibold bg-zinc-100"
-                                        : "text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100"
-                                }`}
+                                className={`px-3 py-1.5 rounded-lg transition-colors ${isActive("/temp_4")
+                                    ? "text-zinc-900 font-semibold bg-zinc-100"
+                                    : "text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100"
+                                    }`}
                             >
                                 Login
                             </Link>
@@ -214,11 +212,10 @@ export default function Navbar() {
                             <Link
                                 href="/temp_2"
                                 aria-label="Cart"
-                                className={`p-2 rounded-lg transition-colors relative ${
-                                    isActive("/temp_2")
-                                        ? "text-zinc-900 bg-zinc-100"
-                                        : "text-zinc-700 hover:text-zinc-900 hover:bg-zinc-100"
-                                }`}
+                                className={`p-2 rounded-lg transition-colors relative ${isActive("/temp_2")
+                                    ? "text-zinc-900 bg-zinc-100"
+                                    : "text-zinc-700 hover:text-zinc-900 hover:bg-zinc-100"
+                                    }`}
                             >
                                 <CartIcon className="w-5 h-5" />
                             </Link>
@@ -254,26 +251,23 @@ export default function Navbar() {
                                                     key={item.name}
                                                     href={item.href}
                                                     onClick={() => setIsOpen(false)}
-                                                    className={`flex items-center justify-between px-3 py-2.5 rounded-xl transition-all ${
-                                                        active
-                                                            ? "bg-zinc-900 text-white font-medium"
-                                                            : "text-zinc-700 hover:text-zinc-900 hover:bg-zinc-100 active:bg-zinc-150"
-                                                    }`}
+                                                    className={`flex items-center justify-between px-3 py-2.5 rounded-xl transition-all ${active
+                                                        ? "bg-zinc-900 text-white font-medium"
+                                                        : "text-zinc-700 hover:text-zinc-900 hover:bg-zinc-100 active:bg-zinc-150"
+                                                        }`}
                                                 >
                                                     <div className="flex items-center gap-3">
                                                         <span
-                                                            className={`p-1.5 rounded-lg ${
-                                                                active ? "bg-zinc-800 text-white" : "bg-zinc-100 text-zinc-600"
-                                                            }`}
+                                                            className={`p-1.5 rounded-lg ${active ? "bg-zinc-800 text-white" : "bg-zinc-100 text-zinc-600"
+                                                                }`}
                                                         >
                                                             <Icon className="w-4 h-4" />
                                                         </span>
                                                         <div>
                                                             <div className="text-sm font-medium leading-none">{item.name}</div>
                                                             <div
-                                                                className={`text-xs mt-0.5 ${
-                                                                    active ? "text-zinc-300" : "text-zinc-400"
-                                                                }`}
+                                                                className={`text-xs mt-0.5 ${active ? "text-zinc-300" : "text-zinc-400"
+                                                                    }`}
                                                             >
                                                                 {item.description}
                                                             </div>
@@ -308,9 +302,8 @@ export default function Navbar() {
                             <Link
                                 key={item.name}
                                 href={item.href}
-                                className={`flex flex-col items-center justify-center py-1 px-1 rounded-lg transition-transform active:scale-95 ${
-                                    active ? "text-zinc-950 font-semibold" : "text-zinc-500 hover:text-zinc-800"
-                                }`}
+                                className={`flex flex-col items-center justify-center py-1 px-1 rounded-lg transition-transform active:scale-95 ${active ? "text-zinc-950 font-semibold" : "text-zinc-500 hover:text-zinc-800"
+                                    }`}
                             >
                                 <span className={`p-1 rounded-md transition-colors ${active ? "bg-zinc-100" : ""}`}>
                                     <Icon className="w-5 h-5" />

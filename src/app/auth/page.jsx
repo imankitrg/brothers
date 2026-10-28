@@ -1,7 +1,6 @@
+import Login from "@/components/authtComponent/login";
 export default function Home() {
     return (
-        <div>
-            <h1>Home</h1>
-        </div>
+        <Login />
     );
 }
