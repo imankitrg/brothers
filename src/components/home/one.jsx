@@ -4,9 +4,9 @@
 import { useEffect, useState } from "react";
 
 const images = [
-    "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1920&q=85",
-    "https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=1920&q=85",
-    "https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=1920&q=85",
+    "/icons/one.webp",
+    "/icons/two.webp",
+    "/icons/three.webp",
 ];
 
 export default function One() {
@@ -29,17 +29,16 @@ export default function One() {
     return (
         <section className="relative w-full overflow-hidden bg-zinc-100">
             {/* Banner */}
-            <div className="relative h-[220px] w-full sm:h-[320px] md:h-[420px] lg:h-[520px]">
+            <div className="relative w-full aspect-[3/1] min-h-[120px] overflow-hidden sm:min-h-0">
                 {images.map((image, index) => (
                     <img
                         key={image}
                         src={image}
                         alt={`Fashion banner ${index + 1}`}
-                        className={`absolute inset-0 h-full w-full object-cover object-center transition-opacity duration-700 ${current === index
-                                ? "z-10 opacity-100"
-                                : "z-0 opacity-0"
+                        className={`absolute inset-0 h-full w-full object-contain object-center transition-opacity duration-700 ${current === index
+                            ? "z-10 opacity-100"
+                            : "z-0 opacity-0"
                             }`}
-                        fetchPriority={index === 0 ? "high" : "auto"}
                     />
                 ))}
 
@@ -72,8 +71,8 @@ export default function One() {
                             onClick={() => setCurrent(index)}
                             aria-label={`Show banner ${index + 1}`}
                             className={`h-2 rounded-full transition-all duration-300 ${current === index
-                                    ? "w-6 bg-white"
-                                    : "w-2 bg-white/60"
+                                ? "w-6 bg-white"
+                                : "w-2 bg-white/60"
                                 }`}
                         />
                     ))}

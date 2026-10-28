@@ -12,12 +12,12 @@ export default function manifest() {
         theme_color: "#111827",
         icons: [
             {
-                src: "/icons/icon-192.png",
+                src: "/icons/bro.png",
                 sizes: "192x192",
                 type: "image/png",
             },
             {
-                src: "/icons/icon-512.png",
+                src: "/icons/bro512.png",
                 sizes: "512x512",
                 type: "image/png",
             },

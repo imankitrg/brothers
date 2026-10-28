@@ -163,7 +163,11 @@ export default function Navbar() {
                             href="/"
                             className="flex items-center gap-2 group transition-opacity hover:opacity-85"
                         >
-                            <span className="w-2.5 h-2.5 rounded-full bg-zinc-900 group-hover:scale-125 transition-transform" />
+                            <img
+                                src="/icons/bro.png"
+                                alt="Logo"
+                                className="h-8 w-8 "
+                            />
                             <span className="font-extrabold text-lg md:text-xl tracking-tight text-zinc-900 lowercase">
                                 brothers store
                             </span>

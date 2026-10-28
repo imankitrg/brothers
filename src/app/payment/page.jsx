@@ -6,9 +6,9 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 const PAYMENT_METHODS = [
-    { id: "upi", label: "UPI QR Code", description: "Scan a QR code to pay", icon: "▦" },
-    { id: "phonepe", label: "PhonePe", description: "Simulated UPI payment", icon: "🟣" },
-    { id: "gpay", label: "Google Pay", description: "Simulated UPI payment", icon: "🔵" },
+    { id: "upi", label: "UPI QR Code", description: "Scan a QR code to pay", icon: "/icons/qrcode.jpeg" },
+    { id: "phonepe", label: "PhonePe", description: "Simulated UPI payment", icon: "/icons/phonepe.png" },
+    { id: "gpay", label: "Google Pay", description: "Simulated UPI payment", icon: "/icons/gpay.jpeg" },
     { id: "other-upi", label: "Other UPI App", description: "Enter a demo UPI ID", icon: "📱" },
     { id: "card", label: "Credit / Debit Card", description: "Visa, Mastercard and more", icon: "💳" },
     { id: "cod", label: "Cash on Delivery", description: "Pay when your order arrives", icon: "💵" },
@@ -190,9 +190,13 @@ export default function PaymentPage() {
                         Demo QR only — this QR does not accept real payments.
                     </p>
 
-                    <div className="mx-auto my-6 flex h-56 w-56 items-center justify-center rounded-xl border-2 border-dashed border-gray-300 bg-gray-50 p-4">
+                    <div className="mx-auto my-6 flex h-56 w-56 items-center justify-center rounded-xl border border-gray-200 bg-white p-4">
                         <div className="text-center">
-                            <div className="text-7xl">▦</div>
+                            <img
+                                src="/icons/qrcode.jpeg"
+                                alt="Demo QR"
+                                className="mx-auto h-36 w-36 object-contain"
+                            />
                             <p className="mt-3 text-xs text-gray-500">
                                 DEMO QR — NOT FOR PAYMENT
                             </p>
@@ -335,8 +339,8 @@ export default function PaymentPage() {
                             <label
                                 key={item.id}
                                 className={`flex cursor-pointer items-center gap-4 rounded-2xl border bg-white p-4 transition ${method === item.id
-                                        ? "border-black ring-1 ring-black"
-                                        : "border-gray-200 hover:border-gray-400"
+                                    ? "border-black ring-1 ring-black"
+                                    : "border-gray-200 hover:border-gray-400"
                                     }`}
                             >
                                 <input
@@ -351,8 +355,16 @@ export default function PaymentPage() {
                                     className="h-4 w-4 accent-black"
                                 />
 
-                                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-gray-100 text-xl">
-                                    {item.icon}
+                                <span className="flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-gray-100 text-xl">
+                                    {typeof item.icon === "string" && item.icon.startsWith("/") ? (
+                                        <img
+                                            src={item.icon}
+                                            alt={item.label}
+                                            className="h-7 w-7 object-contain rounded-md"
+                                        />
+                                    ) : (
+                                        item.icon
+                                    )}
                                 </span>
 
                                 <span className="min-w-0 flex-1">
