@@ -91,7 +91,7 @@ export default function Three() {
                     </div>
 
                     <Link
-                        href="/temp_1"
+                        href="/product"
                         className="group w-fit border-b border-zinc-900 pb-1 text-sm font-medium text-zinc-900"
                     >
                         Explore all products
@@ -106,7 +106,7 @@ export default function Three() {
                     {categories.map((category, index) => (
                         <Link
                             key={category.id}
-                            href={`/temp_1?category=${category.id}`}
+                            href={`/product?category=${category.id}`}
                             className={`group relative isolate block h-[340px] overflow-hidden bg-zinc-100 sm:h-[390px] ${index === 0
                                 ? "sm:col-span-2 sm:row-span-2 sm:h-[500px] lg:h-[600px]"
                                 : ""
