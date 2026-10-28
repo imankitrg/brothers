@@ -62,6 +62,61 @@ export default function ProductPage() {
         window.history.replaceState(null, "", url);
     };
 
+    //add to cart function
+
+    const addToCart = (product) => {
+        const totalStock = product.variants.reduce(
+            (total, variant) => total + variant.stock,
+            0
+        );
+
+        if (totalStock <= 0) {
+            alert("This product is out of stock.");
+            return;
+        }
+
+        const cart = JSON.parse(
+            localStorage.getItem("cart") || "[]"
+        );
+
+        const existingProduct = cart.find(
+            (item) => item.id === product.id
+        );
+
+        let updatedCart;
+
+        if (existingProduct) {
+            if (existingProduct.quantity >= existingProduct.stock) {
+                alert("Maximum available stock reached.");
+                return;
+            }
+
+            updatedCart = cart.map((item) =>
+                item.id === product.id
+                    ? { ...item, quantity: item.quantity + 1 }
+                    : item
+            );
+        } else {
+            updatedCart = [
+                ...cart,
+                {
+                    id: product.id,
+                    name: product.name,
+                    price: product.price,
+                    image: product.images?.[0] || "",
+                    quantity: 1,
+                    stock: totalStock,
+                },
+            ];
+        }
+
+        localStorage.setItem("cart", JSON.stringify(updatedCart));
+
+        window.dispatchEvent(new Event("cartUpdated"));
+
+        alert("Product added to cart!");
+    };
+
     return (
         <main className="min-h-screen bg-white px-4 py-10 sm:px-6 lg:px-10">
             <div className="mx-auto max-w-7xl">
@@ -88,8 +143,8 @@ export default function ProductPage() {
                                 key={item.value}
                                 onClick={() => handleCategoryChange(item.value)}
                                 className={`rounded-full border px-4 py-2 text-sm transition ${category === item.value
-                                        ? "border-black bg-black text-white"
-                                        : "border-zinc-200 bg-white text-zinc-700 hover:border-black"
+                                    ? "border-black bg-black text-white"
+                                    : "border-zinc-200 bg-white text-zinc-700 hover:border-black"
                                     }`}
                             >
                                 {item.label}
@@ -127,61 +182,69 @@ export default function ProductPage() {
                                 0
                             );
 
+
                             return (
-                                <Link
-                                    href={`/product/${product.id}`}
-                                    key={product.id}
-                                    className="group"
-                                >
-                                    <div className="relative aspect-[3/4] overflow-hidden bg-zinc-100">
-                                        {image && (
-                                            <img
-                                                src={image}
-                                                alt={product.name}
-                                                loading="lazy"
-                                                className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                                            />
-                                        )}
+                                <div key={product.id} className="group">
+                                    <Link href={`/product/${product.id}`}>
+                                        <div className="relative aspect-[3/4] overflow-hidden bg-zinc-100">
+                                            {image && (
+                                                <img
+                                                    src={image}
+                                                    alt={product.name}
+                                                    loading="lazy"
+                                                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                                                />
+                                            )}
 
-                                        {product.isNew && (
-                                            <span className="absolute left-3 top-3 bg-white px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-zinc-900">
-                                                New
-                                            </span>
-                                        )}
+                                            {product.isNew && (
+                                                <span className="absolute left-3 top-3 bg-white px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-zinc-900">
+                                                    New
+                                                </span>
+                                            )}
 
-                                        {totalStock === 0 && (
-                                            <span className="absolute inset-x-0 bottom-0 bg-black/80 py-3 text-center text-xs font-medium text-white">
-                                                Out of stock
-                                            </span>
-                                        )}
-                                    </div>
-
-                                    <div className="pt-4">
-                                        <p className="mb-1 text-[10px] uppercase tracking-widest text-zinc-500">
-                                            {product.brand} · {product.subcategory}
-                                        </p>
-
-                                        <h2 className="text-sm font-medium text-zinc-900 sm:text-base">
-                                            {product.name}
-                                        </h2>
-
-                                        <div className="mt-2 flex flex-wrap items-center gap-2">
-                                            <span className="text-sm font-semibold text-zinc-900">
-                                                ₹{product.price.toLocaleString("en-IN")}
-                                            </span>
-
-                                            {product.originalPrice > product.price && (
-                                                <span className="text-xs text-zinc-400 line-through">
-                                                    ₹{product.originalPrice.toLocaleString("en-IN")}
+                                            {totalStock === 0 && (
+                                                <span className="absolute inset-x-0 bottom-0 bg-black/80 py-3 text-center text-xs font-medium text-white">
+                                                    Out of stock
                                                 </span>
                                             )}
                                         </div>
 
-                                        <p className="mt-2 text-xs text-zinc-500">
-                                            {product.variants.length} options
-                                        </p>
-                                    </div>
-                                </Link>
+                                        <div className="pt-4">
+                                            <p className="mb-1 text-[10px] uppercase tracking-widest text-zinc-500">
+                                                {product.brand} · {product.subcategory}
+                                            </p>
+
+                                            <h2 className="text-sm font-medium text-zinc-900 sm:text-base">
+                                                {product.name}
+                                            </h2>
+
+                                            <div className="mt-2 flex flex-wrap items-center gap-2">
+                                                <span className="text-sm font-semibold text-zinc-900">
+                                                    ₹{product.price.toLocaleString("en-IN")}
+                                                </span>
+
+                                                {product.originalPrice > product.price && (
+                                                    <span className="text-xs text-zinc-400 line-through">
+                                                        ₹{product.originalPrice.toLocaleString("en-IN")}
+                                                    </span>
+                                                )}
+                                            </div>
+
+                                            <p className="mt-2 text-xs text-zinc-500">
+                                                {product.variants.length} options
+                                            </p>
+                                        </div>
+                                    </Link>
+
+                                    <button
+                                        type="button"
+                                        disabled={totalStock === 0}
+                                        onClick={() => addToCart(product)}
+                                        className="mt-4 w-full rounded-full bg-black px-4 py-3 text-sm font-medium text-white transition hover:bg-zinc-800 disabled:cursor-not-allowed disabled:bg-zinc-300"
+                                    >
+                                        {totalStock === 0 ? "Out of Stock" : "Add to Cart"}
+                                    </button>
+                                </div>
                             );
                         })}
                     </div>

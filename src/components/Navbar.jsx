@@ -112,10 +112,10 @@ export default function Navbar() {
 
     // Primary navigation links
     const desktopLinks = [
-        { name: "Products", href: "/temp_1" },
-        { name: "Orders", href: "/temp_6" },
-        { name: "Cart", href: "/temp_2", icon: CartIcon },
-        { name: "Checkout", href: "/temp_3" },
+        { name: "Products", href: "/product" },
+        { name: "Orders", href: "/order" },
+        { name: "Cart", href: "/cart", icon: CartIcon },
+        { name: "Checkout", href: "/checkout" },
     ];
 
     const mobileMenuGroups = [
@@ -123,10 +123,10 @@ export default function Navbar() {
             title: "Shopping",
             items: [
                 { name: "Home", href: "/", icon: HomeIcon, description: "Explore collections & featured styles" },
-                { name: "Products", href: "/temp_1", icon: ProductsIcon, description: "Browse all clothes and categories" },
-                { name: "Cart", href: "/temp_2", icon: CartIcon, description: "View your shopping bag" },
-                { name: "Checkout", href: "/temp_3", icon: CheckoutIcon, description: "Secure fast checkout" },
-                { name: "Orders", href: "/temp_6", icon: OrdersIcon, description: "Track recent purchases & delivery" },
+                { name: "Products", href: "/product", icon: ProductsIcon, description: "Browse all clothes and categories" },
+                { name: "Cart", href: "/cart", icon: CartIcon, description: "View your shopping bag" },
+                { name: "Checkout", href: "/checkout", icon: CheckoutIcon, description: "Secure fast checkout" },
+                { name: "Orders", href: "/order", icon: OrdersIcon, description: "Track recent purchases & delivery" },
             ],
         },
         {
@@ -141,8 +141,8 @@ export default function Navbar() {
     const bottomDockItems = [
         { name: "Home", href: "/", icon: HomeIcon },
         { name: "Products", href: "/product", icon: ProductsIcon },
-        { name: "Orders", href: "/temp_6", icon: OrdersIcon },
-        { name: "Cart", href: "/temp_2", icon: CartIcon },
+        { name: "Orders", href: "/order", icon: OrdersIcon },
+        { name: "Cart", href: "/cart", icon: CartIcon },
         { name: "Account", href: "/auth", icon: UserIcon },
     ];
 
@@ -210,9 +210,9 @@ export default function Navbar() {
                         {/* Mobile Top Controls: Quick Cart & Menu Toggle */}
                         <div className="flex md:hidden items-center gap-1">
                             <Link
-                                href="/temp_2"
+                                href="/cart"
                                 aria-label="Cart"
-                                className={`p-2 rounded-lg transition-colors relative ${isActive("/temp_2")
+                                className={`p-2 rounded-lg transition-colors relative ${isActive("/cart")
                                     ? "text-zinc-900 bg-zinc-100"
                                     : "text-zinc-700 hover:text-zinc-900 hover:bg-zinc-100"
                                     }`}
