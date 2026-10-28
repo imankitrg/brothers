@@ -229,13 +229,12 @@ export default function CartPage() {
                                 </span>
                             </div>
 
-                            <button
-                                type="button"
-                                onClick={() => alert("Checkout will be added next!")}
-                                className="mt-7 w-full rounded-full bg-black px-5 py-4 text-sm font-medium text-white transition hover:bg-zinc-800"
+                            <Link
+                                href="/checkout"
+                                className="mt-10 block w-60 mx-auto rounded-full bg-black px-5 py-4 text-sm font-medium text-white transition hover:bg-zinc-800"
                             >
                                 Proceed to Checkout
-                            </button>
+                            </Link>
 
                             <Link
                                 href="/products"

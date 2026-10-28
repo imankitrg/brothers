@@ -113,9 +113,10 @@ export default function Navbar() {
     // Primary navigation links
     const desktopLinks = [
         { name: "Products", href: "/product" },
-        { name: "Orders", href: "/order" },
+        { name: "Orders", href: "/order", icon: OrdersIcon },
         { name: "Cart", href: "/cart", icon: CartIcon },
         { name: "Checkout", href: "/checkout" },
+        { name: "Profile", href: "/profile", icon: UserIcon },
     ];
 
     const mobileMenuGroups = [
@@ -126,7 +127,7 @@ export default function Navbar() {
                 { name: "Products", href: "/product", icon: ProductsIcon, description: "Browse all clothes and categories" },
                 { name: "Cart", href: "/cart", icon: CartIcon, description: "View your shopping bag" },
                 { name: "Checkout", href: "/checkout", icon: CheckoutIcon, description: "Secure fast checkout" },
-                { name: "Orders", href: "/order", icon: OrdersIcon, description: "Track recent purchases & delivery" },
+                { name: "Profile", href: "/profile", icon: UserIcon, description: "View your profile" },
             ],
         },
         {
@@ -141,9 +142,9 @@ export default function Navbar() {
     const bottomDockItems = [
         { name: "Home", href: "/", icon: HomeIcon },
         { name: "Products", href: "/product", icon: ProductsIcon },
-        { name: "Orders", href: "/order", icon: OrdersIcon },
         { name: "Cart", href: "/cart", icon: CartIcon },
-        { name: "Account", href: "/auth", icon: UserIcon },
+        { name: "Checkout", href: "/checkout", icon: CheckoutIcon },
+        { name: "Account", href: "/profile", icon: UserIcon },
     ];
 
     const isActive = (href) => {
